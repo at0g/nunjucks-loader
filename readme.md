@@ -82,8 +82,9 @@ env.addFilter('foo', function(input){
 
 If you **are using custom async filters and/or extensions**, you will need to do the following:
 
-- Create a file to configure the environment. This should export a function that receives the nunjucks environment 
-- Add the path to the configuration file to the loader config in webpack.config.js 
+- Create a file to configure the environment. This should export a function that receives the nunjucks environment as 
+ its first argument
+- Add a `config` key to the nunjucks-loader query in webpack.config.js
 
 ``` javascript
 // file: src/nunjucks.config.js
@@ -120,6 +121,12 @@ module.exports = {
         ]
     }
 };
+
+// file: src/entry.js
+var env = require('nunjucks-loader/env');
+// require the filters config so they are included in the build.
+require('./nunjucks.config.js')(env);
+
 
 ```
 

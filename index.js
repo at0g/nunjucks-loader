@@ -11,6 +11,7 @@ var compiler = require('nunjucks/src/compiler');
 var Environment = require('nunjucks/src/environment').Environment;
 var env = new Environment([]);
 var hasRun = false;
+var pathToConfigure;
 
 module.exports = function(source) {
     this.cacheable();
@@ -20,8 +21,9 @@ module.exports = function(source) {
         if(query.length > 0){
             var q = JSON.parse(query);
 
-            if(q.configure){
-                var configure = require(q.configure);
+            if(q.config){
+                pathToConfigure = q.config;
+                var configure = require(q.config);
                 configure(env);
             }
         }
@@ -38,6 +40,10 @@ module.exports = function(source) {
     compiledTemplate += 'var env = require("' + __dirname + '/env");\n';
     // Add a dependencies object to hold resolved dependencies
     compiledTemplate += 'var dependencies = {};\n';
+
+    if( pathToConfigure ){
+        compiledTemplate += 'var configure = require("' + pathToConfigure + '")(env);\n';
+    }
 
     while( match = reg.exec( nunjucksCompiledStr ) ) {
         var templateRef = match[1];
