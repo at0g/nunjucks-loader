@@ -1,0 +1,17 @@
+{
+    "name": "nunjucks-loader-paths-example",
+    "version": "0.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "jquery": "^2.1.3",
+        "nunjucks-loader": "git://github.com/at0g/nunjucks-loader.git#develop",
+        "webpack": "^1.7.2",
+        "webpack-dev-server": "^1.7.0"
+    }
+}
