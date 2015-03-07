@@ -1,0 +1,2 @@
+
+<p>Hello {{ message | default('world') }}</p>
