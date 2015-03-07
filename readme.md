@@ -10,14 +10,28 @@
 
 [Documentation: Using loaders](http://webpack.github.io/docs/using-loaders.html)
 
-Install `npm install nunjucks-loader --save`
-
 ### Recommended configuration
 
 Add it to webpack.config to process all .nunj and .nunjucks files:
 
 ``` javascript
 // file: webpack.config.js
+
+Install it `npm install nunjucks-loader --save`
+
+Use it inline:
+
+``` javascript
+var tpl = require("nunjucks!./views/page.nunj");
+var html = tpl.render({ message: 'Foo that!' });
+```
+
+or add it to webpack.config to process all .nunj and .nunjucks files:
+
+
+
+``` javascript
+// file: webpack.config.js 
 module.exports = {
 
     entry: './src/entry.js',
@@ -43,7 +57,6 @@ Then use it in your module code without the `nunjucks!` prefix:
 
 ``` javascript
 // file: src/entry.js
-
 var tpl = require('./views/page.nunj');
 var html = tpl.render({ message: 'Foo that!' });
 ```
@@ -110,16 +123,15 @@ module.exports = {
 
 ```
 
-
 ## Path resolution
 
 This loader modifies the way nunjucks resolves dependencies (eg `extends`, `import` and `include`) to work correctly 
 with webpack. As a result, you may use `require` style relative paths in your templates.
 Add a `resolve.root` key to `webpack.config.js` to resolve your templates without using relative paths.
 
+
 ``` javascript
 // file: webpack.config.js
-
 module.exports = {
     resolve: {
         root: [
