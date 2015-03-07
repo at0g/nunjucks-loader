@@ -10,10 +10,25 @@
 var compiler = require('nunjucks/src/compiler');
 var Environment = require('nunjucks/src/environment').Environment;
 var env = new Environment([]);
-
+var hasRun = false;
 
 module.exports = function(source) {
     this.cacheable();
+
+    if(!hasRun){
+        var query = this.query.replace('?', '');
+        if(query.length > 0){
+            var q = JSON.parse(query);
+
+            if(q.configure){
+                var configure = require(q.configure);
+                configure(env);
+            }
+        }
+        hasRun = true;
+    }
+
+
 
     var nunjucksCompiledStr = compiler.compile(source, env.asyncFilters, env.extensionsList);
     var reg = /env\.getTemplate\(\"(.*?)\"/g;
@@ -22,7 +37,7 @@ module.exports = function(source) {
     var compiledTemplate = '';
 
     compiledTemplate += 'var nunjucks = require( "nunjucks/browser/nunjucks-slim" );\n';
-    compiledTemplate += 'var env = nunjucks.env || new nunjucks.Environment();\n';
+    compiledTemplate += 'var env = require("' + __dirname + '/env");\n';
 
     // Add a dependencies object to hold resolved dependencies
     compiledTemplate += 'var dependencies = {};\n';
