@@ -1,13 +1,12 @@
 module.exports = {
 
+    target: 'node',
+
     context: __dirname,
 
-    entry: 'mocha!./web.js',
-    //
-    //output: {
-    //    path: __dirname,
-    //    filename: 'bundle.js'
-    //},
+    output: {
+        libraryTarget: 'commonjs2'
+    },
 
     module: {
         loaders: [
@@ -17,6 +16,10 @@ module.exports = {
                 query: {
                     config: __dirname + '/nunjucks.config.js'
                 }
+            },
+            {
+                test: /\.node$/,
+                loader: 'node'
             }
         ]
     },
