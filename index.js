@@ -36,8 +36,14 @@ module.exports = function(source) {
     var required = {};
     var compiledTemplate = '';
 
-    compiledTemplate += 'var nunjucks = require( "nunjucks/browser/nunjucks-slim" );\n';
-    compiledTemplate += 'var env = require("' + __dirname + '/env");\n';
+    if (this.target === 'web') {
+        compiledTemplate += 'var nunjucks = require( "nunjucks/browser/nunjucks-slim" );\n';
+    }
+    else {
+        compiledTemplate += 'var nunjucks = require("nunjucks");\n';
+    }
+
+    compiledTemplate += 'var env = new nunjucks.Environment([]);\n';
     // Add a dependencies object to hold resolved dependencies
     compiledTemplate += 'var dependencies = {};\n';
 
@@ -48,7 +54,7 @@ module.exports = function(source) {
     while( match = reg.exec( nunjucksCompiledStr ) ) {
         var templateRef = match[1];
         if (!required[templateRef]) {
-            // Require the dependency by name, so it get bundled in by webpack
+            // Require the dependency by name, so it get bundled by webpack
             compiledTemplate += 'dependencies["' + templateRef + '"] = require( "' + templateRef + '" );\n';
             required[templateRef] = true;
         }
