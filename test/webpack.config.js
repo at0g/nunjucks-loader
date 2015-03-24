@@ -3,11 +3,11 @@ module.exports = {
     context: __dirname,
 
     entry: 'mocha!./web.js',
-
-    output: {
-        path: __dirname,
-        filename: 'bundle.js'
-    },
+    //
+    //output: {
+    //    path: __dirname,
+    //    filename: 'bundle.js'
+    //},
 
     module: {
         loaders: [
