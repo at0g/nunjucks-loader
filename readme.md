@@ -181,3 +181,13 @@ module.exports = {
     }
 }
 ```
+
+## Tests
+
+### Web
+
+`npm run test`
+Navigate to http://localhost:8080/test
+
+### Node
+`npm run test-node`
