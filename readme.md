@@ -12,26 +12,13 @@
 
 ### Recommended configuration
 
-Add it to webpack.config to process all .nunj and .nunjucks files:
+Install: `npm install nunjucks-loader --save`
+
+
+Add to webpack.config to process all .nunj and .nunjucks files:
 
 ``` javascript
 // file: webpack.config.js
-
-Install it `npm install nunjucks-loader --save`
-
-Use it inline:
-
-``` javascript
-var tpl = require("nunjucks!./views/page.nunj");
-var html = tpl.render({ message: 'Foo that!' });
-```
-
-or add it to webpack.config to process all .nunj and .nunjucks files:
-
-
-
-``` javascript
-// file: webpack.config.js 
 module.exports = {
 
     entry: './src/entry.js',
@@ -60,6 +47,52 @@ Then use it in your module code without the `nunjucks!` prefix:
 var tpl = require('./views/page.nunj');
 var html = tpl.render({ message: 'Foo that!' });
 ```
+
+#### Inline configuration (not recommended)
+
+If using the inline configuration (below), references inside of templates to other files (parents, imports etc) may not
+resolve correctly - hence it's preferable to use the webpack.config method above.
+
+``` javascript
+var tpl = require("nunjucks!./views/page.nunj");
+var html = tpl.render({ message: 'Foo that!' });
+```
+
+
+### webpack.target = 'node'
+
+When targeting node instead of the browser, you'll need to add the following lines to your config.
+
+``` javascript
+// file: webpack.config.js
+module.exports = {
+    target: 'node',
+    output: {
+        libraryTarget: 'commonjs2',
+        ...
+    },
+    ...
+}
+
+```
+
+If you intend to bundle nunjucks in the output, you will also need to add the node-loader module.
+
+``` javascript
+// file: webpack.config.js
+module.exports = {
+    module: {
+        loaders: [
+            {
+                test: /\.node$/,
+                loader: 'node'
+            },
+            ...
+        ]
+    }
+}
+```
+
 
 
 ### Adding custom filters and extensions
