@@ -97,26 +97,10 @@ module.exports = {
 
 ### Adding custom filters and extensions
 
-A custom nunjucks.Environment is used by this loader and can be retrieved like so:
+A custom nunjucks.Environment is used by this loader. To configure the nunjucks environment:
 
-``` javascript
-var env = require('nunjucks-loader').env;
-```
-
-Provided you are **not using custom async filters or extensions**, you can add filters on this environment as is:
-
-``` javascript
-// file: src/entry.js
-var env = require('nunjucks-loader').env;
-env.addFilter('foo', function(input){
-    return '[foo] ' + input;
-});
-```
-
-If you **are using custom async filters and/or extensions**, you will need to do the following:
-
-- Create a file to configure the environment. This should export a function that receives the nunjucks environment as 
- its first argument
+- Create a file that will configure the environment. This should export a function that receives the nunjucks
+ environment as its first argument.
 - Add a `config` key to the nunjucks-loader query in webpack.config.js
 
 ``` javascript
@@ -154,12 +138,6 @@ module.exports = {
         ]
     }
 };
-
-// file: src/entry.js
-var env = require('nunjucks-loader/env');
-// require the filters config so they are included in the build.
-require('./nunjucks.config.js')(env);
-
 
 ```
 

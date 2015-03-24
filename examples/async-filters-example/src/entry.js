@@ -1,8 +1,4 @@
 var $ = require('jquery');
-//var env = require('nunjucks-loader/env');
-//require('./nunjucks.config')(env);
-
-
 var formTpl = require('markdown-form.nunj');
 var resultTpl = require('markdown-result.nunj');
 
