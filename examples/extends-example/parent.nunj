@@ -1,0 +1,6 @@
+<div style="background-color: lime; padding: 1em;">
+<h1>Parent message: {{ message | default('(none)') }}</h1>
+{% block content %}
+
+{% endblock %}
+</div>

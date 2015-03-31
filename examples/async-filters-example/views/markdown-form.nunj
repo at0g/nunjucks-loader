@@ -1,0 +1,12 @@
+<form id="markdown-form">
+
+    <div>
+        <label>Enter some markdown</label>
+        <textarea id="md-input" style="display:block; width: 100%;" rows="5"># hello</textarea>
+        <input type="submit">
+    </div>
+
+    <h2>Result:</h2>
+    <div id="result" style="border: 1px red dotted; padding: 1em;"></div>
+
+</form>
