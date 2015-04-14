@@ -49,7 +49,7 @@ module.exports = function(source) {
     compiledTemplate += 'var dependencies = {};\n';
 
     if( pathToConfigure ){
-        compiledTemplate += 'var configure = require("' + slash(pathToConfigure) + '")(env);\n';
+        compiledTemplate += 'var configure = require("' + pathToConfigure + '")(env);\n';
     }
 
     while( match = reg.exec( nunjucksCompiledStr ) ) {
@@ -61,7 +61,7 @@ module.exports = function(source) {
         }
     }
     compiledTemplate += '\n\n\n\n';
-    compiledTemplate += 'var shim = require("' + __dirname + '/runtime-shim' + '");\n';
+    compiledTemplate += 'var shim = require("' + slash(__dirname + '/runtime-shim') + '");\n';
     compiledTemplate += 'var obj = (function () {' + nunjucksCompiledStr + '})();\n';
     compiledTemplate += 'module.exports = shim(nunjucks, env, obj, dependencies)';
 
