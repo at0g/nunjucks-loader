@@ -9,6 +9,7 @@
 
 var compiler = require('nunjucks/src/compiler');
 var Environment = require('nunjucks/src/environment').Environment;
+var slash = require('slash')
 var env = new Environment([]);
 var hasRun = false;
 var pathToConfigure;
@@ -48,7 +49,7 @@ module.exports = function(source) {
     compiledTemplate += 'var dependencies = {};\n';
 
     if( pathToConfigure ){
-        compiledTemplate += 'var configure = require("' + pathToConfigure + '")(env);\n';
+        compiledTemplate += 'var configure = require("' + slash(pathToConfigure) + '")(env);\n';
     }
 
     while( match = reg.exec( nunjucksCompiledStr ) ) {
