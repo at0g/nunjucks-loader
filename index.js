@@ -9,6 +9,7 @@
 
 var compiler = require('nunjucks/src/compiler');
 var Environment = require('nunjucks/src/environment').Environment;
+var slash = require('slash')
 var env = new Environment([]);
 var hasRun = false;
 var pathToConfigure;
@@ -60,7 +61,7 @@ module.exports = function(source) {
         }
     }
     compiledTemplate += '\n\n\n\n';
-    compiledTemplate += 'var shim = require("' + __dirname + '/runtime-shim' + '");\n';
+    compiledTemplate += 'var shim = require("' + slash(__dirname + '/runtime-shim') + '");\n';
     compiledTemplate += 'var obj = (function () {' + nunjucksCompiledStr + '})();\n';
     compiledTemplate += 'module.exports = shim(nunjucks, env, obj, dependencies)';
 

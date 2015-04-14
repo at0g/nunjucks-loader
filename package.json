@@ -24,6 +24,9 @@
     "url": "https://github.com/at0g/nunjucks-loader/issues"
   },
   "homepage": "https://github.com/at0g/nunjucks-loader",
+  "dependencies": {
+    "slash": "~1.0.0"
+  },
   "peerDependencies": {
     "nunjucks": "1.x"
   },
