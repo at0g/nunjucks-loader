@@ -44,6 +44,17 @@ describe('template inheritance', function() {
 
 describe('environment config', function() {
 
+    describe('add global', function () {
+        before(function () {
+            this.tpl = require('global-value.nunj');
+        });
+
+        it('should render a global', function () {
+            this.tpl.render.should.be.a.Function;
+            this.tpl.render().should.equal('myGlobal = some global value');
+        });
+    });
+
     describe('filters', function() {
 
         before(function() {

@@ -4,6 +4,17 @@ var lib = require('/tmp/nunjucks-loader.js');
 
 describe('compiled templates', function() {
 
+    describe('global.nunj', function() {
+        before(function () {
+            this.tpl = lib.globalValue;
+        });
+
+        it('should render a global value', function () {
+            this.tpl.render.should.be.a.Function;
+            this.tpl.render().should.equal('myGlobal = some global value');
+        });
+    });
+
     describe('async-filter.nunj', function() {
         before(function() {
             this.tpl = lib.asyncFilter;
