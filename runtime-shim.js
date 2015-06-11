@@ -1,7 +1,7 @@
 module.exports = function(nunjucks, env, obj, dependencies){
 
     var oldRoot = obj.root;
-    obj.root = function( env, context, frame, runtime, cb ) {
+    obj.root = function( env, context, frame, runtime, cb, cb2 ) {
         var oldGetTemplate = env.getTemplate;
         env.getTemplate = function( name, ec, cb ) {
             if( typeof ec === "function" ) {
@@ -21,6 +21,7 @@ module.exports = function(nunjucks, env, obj, dependencies){
             var tmpl = _require( name );
             frame.set( "_require", _require );
             if( ec ) tmpl.compile();
+            if(! cb ) cb = cb2;
             cb( null, tmpl );
         };
 
