@@ -49,7 +49,7 @@ module.exports = function(source) {
     compiledTemplate += 'var dependencies = {};\n';
 
     if( pathToConfigure ){
-        compiledTemplate += 'var configure = require("' + pathToConfigure + '")(env);\n';
+        compiledTemplate += 'var configure = require("' + slash(pathToConfigure) + '")(env);\n';
     }
 
     while( match = reg.exec( nunjucksCompiledStr ) ) {
