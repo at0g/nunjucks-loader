@@ -1,7 +1,7 @@
 module.exports = function(nunjucks, env, obj, dependencies){
 
     var oldRoot = obj.root;
-    obj.root = function( env, context, frame, runtime, cb ) {
+    obj.root = function( env, context, frame, runtime, cb, cb2 ) {
         var oldGetTemplate = env.getTemplate;
 
         // The parentName param was added to nunjucks 1.3.x
@@ -23,6 +23,7 @@ module.exports = function(nunjucks, env, obj, dependencies){
             var tmpl = _require( name );
             frame.set( "_require", _require );
             if( ec ) tmpl.compile();
+            if(! cb ) cb = cb2;
             cb( null, tmpl );
         };
 
