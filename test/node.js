@@ -32,6 +32,24 @@ describe('compiled templates', function() {
 
     });
 
+    describe('include-basic.nunj', function () {
+        it ('should include the template', function () {
+           var tpl = lib.includeBasic;
+           tpl.render.should.be.a.Function;
+           tpl.render().should.equal('Content to include');
+        });
+    });
+
+    describe('include-within-block.nunj', function () {
+        it ('should include a template from within a block body', function () {
+            var tpl = lib.includeWithinBlock;
+            var result = tpl.render();
+            tpl.render.should.be.a.Function;
+            result.should.contain('Content to include');
+            result.should.contain('<div class="content">');
+        });
+    });
+
     describe('child.nunj', function() {
         before(function() {
             this.tpl = lib.child;

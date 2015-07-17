@@ -10,6 +10,7 @@ describe('path resolution', function() {
         tpl1.render.should.be.a.Function;
         tpl2.render.should.be.a.Function;
         tpl1.render().should.equal(tpl2.render());
+        tpl1.render().should.have.length.above(0);
     });
 
 });
@@ -23,13 +24,14 @@ describe('template inheritance', function() {
 
     it('should inherit from parent template', function() {
         this.tpl.render.should.be.a.Function;
+        this.tpl.render().should.have.length.above(0);
     });
 
     it('should render a default argument', function() {
         var result = this.tpl.render();
         result.should.be.a.String
         result.should.contain('hello world');
-        result.should.contain('<div class="content">')
+        result.should.contain('<div class="content">');
     });
 
     it('should render using the data context', function() {
@@ -37,6 +39,24 @@ describe('template inheritance', function() {
         var result = this.tpl.render(context);
         result.should.be.a.String
         result.should.contain('hello ' + context.name);
+    });
+
+});
+
+describe('include', function () {
+
+    it ('should include the template', function () {
+        var tpl = require('include-basic.nunj');
+        tpl.render.should.be.a.Function;
+        tpl.render().should.equal('Content to include');
+    });
+
+    it ('should include a template from within a block body', function () {
+        var tpl = require('include-within-block.nunj');
+        var result = tpl.render();
+        tpl.render.should.be.a.Function;
+        result.should.contain('Content to include');
+        result.should.contain('<div class="content">');
     });
 
 });

@@ -39,14 +39,20 @@ module.exports = function(source) {
 
     if (this.target === 'web') {
         compiledTemplate += 'var nunjucks = require( "nunjucks/browser/nunjucks-slim" );\n';
+        compiledTemplate += 'if (!window.nunjucksDependencies) { \n';
+        compiledTemplate += 'window.nunjucksDependencies = {} \n';
+        compiledTemplate += '} \n';
+        compiledTemplate += 'var dependencies = window.nunjucksDependencies;\n'
     }
     else {
         compiledTemplate += 'var nunjucks = require("nunjucks");\n';
+        compiledTemplate += 'if (!global.nunjucksDependencies) { \n';
+        compiledTemplate += 'global.nunjucksDependencies = {} \n';
+        compiledTemplate += '} \n';
+        compiledTemplate += 'var dependencies = global.nunjucksDependencies;\n'
     }
 
-    compiledTemplate += 'var env = new nunjucks.Environment([]);\n';
-    // Add a dependencies object to hold resolved dependencies
-    compiledTemplate += 'var dependencies = {};\n';
+    compiledTemplate += 'var env = new nunjucks.Environment([], {autoescape: true});\n';
 
     if( pathToConfigure ){
         compiledTemplate += 'var configure = require("' + slash(pathToConfigure) + '")(env);\n';
@@ -54,6 +60,7 @@ module.exports = function(source) {
 
     while( match = reg.exec( nunjucksCompiledStr ) ) {
         var templateRef = match[1];
+
         if (!required[templateRef]) {
             // Require the dependency by name, so it get bundled by webpack
             compiledTemplate += 'dependencies["' + templateRef + '"] = require( "' + templateRef + '" );\n';
