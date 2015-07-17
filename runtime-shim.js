@@ -3,14 +3,16 @@ module.exports = function(nunjucks, env, obj, dependencies){
     var oldRoot = obj.root;
     obj.root = function( env, context, frame, runtime, cb ) {
         var oldGetTemplate = env.getTemplate;
-        env.getTemplate = function( name, ec, cb ) {
+
+        // The parentName param was added to nunjucks 1.3.x
+        env.getTemplate = function( name, ec, parentName, cb ) {
             if( typeof ec === "function" ) {
                 cb = ec;
                 ec = false;
             }
             var _require = function(name) {
                 try {
-                    // add a reference to the already resolved dependency here...
+                    // add a reference to the already resolved dependency here
                     return dependencies[name];
                 }
                 catch (e) {

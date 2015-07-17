@@ -20,6 +20,10 @@ module.exports = {
             {
                 test: /\.node$/,
                 loader: 'node'
+            },
+            {
+                test: /minimatch/,
+                loader: 'imports?require=>false'
             }
         ]
     },

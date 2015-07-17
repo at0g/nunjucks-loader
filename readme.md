@@ -76,7 +76,8 @@ module.exports = {
 
 ```
 
-If you intend to bundle nunjucks in the output, you will also need to add the node-loader module.
+If you intend to bundle nunjucks in the output, you will also need to add the node-loader module and exclude the
+ minimatch module.
 
 ``` javascript
 // file: webpack.config.js
@@ -87,6 +88,10 @@ module.exports = {
                 test: /\.node$/,
                 loader: 'node'
             },
+            {
+                test: /minimatch/,
+                loader: 'imports?require=>false'
+            }
             ...
         ]
     }
