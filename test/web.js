@@ -1,28 +1,6 @@
 require('./common');
-var spec = require('./spec');
-
-spec.paths(require('./fixtures/templates/child.nunj'), require('child.nunj'));
-
-spec.inheritance(require('child.nunj'));
-
-describe('include', function () {
-
-    it ('should include the template', function () {
-        var tpl = require('include-basic.nunj');
-        tpl.render.should.be.a.Function;
-        tpl.render().should.equal('Content to include');
-    });
-
-    it ('should include a template from within a block body', function () {
-        var tpl = require('include-within-block.nunj');
-        var result = tpl.render();
-        tpl.render.should.be.a.Function;
-        result.should.contain('Content to include');
-        result.should.contain('<div class="content">');
-    });
-
-});
-
+var lib = require('./fixtures/lib');
+require('./spec')(lib);
 
 describe('environment config', function() {
 

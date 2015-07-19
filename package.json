@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "webpack-dev-server --config test/webpack.web-config.js",
-    "test-node": "webpack test/fixtures/node.js /tmp/nunjucks-loader.js --config test/webpack.node-config.js && mocha test/node.js -t 5000"
+    "test-node": "webpack test/fixtures/lib.js /tmp/nunjucks-loader.js --config test/webpack.node-config.js && mocha test/node.js -t 5000"
   },
   "repository": {
     "type": "git",
