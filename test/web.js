@@ -3,32 +3,7 @@ var spec = require('./spec');
 
 spec.paths(require('./fixtures/templates/child.nunj'), require('child.nunj'));
 
-describe('template inheritance', function() {
-
-    beforeEach(function() {
-        this.tpl = require('child.nunj');
-    });
-
-    it('should inherit from parent template', function() {
-        this.tpl.render.should.be.a.Function;
-        this.tpl.render().should.have.length.above(0);
-    });
-
-    it('should render a default argument', function() {
-        var result = this.tpl.render();
-        result.should.be.a.String
-        result.should.contain('hello world');
-        result.should.contain('<div class="content">');
-    });
-
-    it('should render using the data context', function() {
-        var context = { name: 'everyone'};
-        var result = this.tpl.render(context);
-        result.should.be.a.String
-        result.should.contain('hello ' + context.name);
-    });
-
-});
+spec.inheritance(require('child.nunj'));
 
 describe('include', function () {
 
