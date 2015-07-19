@@ -1,5 +1,4 @@
-var chai = require('chai');
-var should = chai.should();
+require('./common');
 
 describe('path resolution', function() {
 

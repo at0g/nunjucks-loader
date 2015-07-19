@@ -1,6 +1,6 @@
-var chai = require('chai');
-var should = chai.should();
 var lib = require('/tmp/nunjucks-loader.js');
+
+require('./common');
 
 describe('compiled templates', function() {
 
