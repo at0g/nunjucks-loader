@@ -1,19 +1,7 @@
 require('./common');
+var spec = require('./spec');
 
-describe('path resolution', function() {
-
-    it('should resolve paths using webpack resolve', function() {
-        var tpl1 = require('./fixtures/templates/child.nunj');
-        var tpl2 = require('child.nunj');
-
-        tpl1.render.should.be.a.Function;
-        tpl2.render.should.be.a.Function;
-        tpl1.render().should.equal(tpl2.render());
-        tpl1.render().should.have.length.above(0);
-    });
-
-});
-
+spec.paths(require('./fixtures/templates/child.nunj'), require('child.nunj'));
 
 describe('template inheritance', function() {
 

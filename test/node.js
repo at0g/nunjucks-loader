@@ -1,6 +1,8 @@
-var lib = require('/tmp/nunjucks-loader.js');
-
 require('./common');
+var lib = require('/tmp/nunjucks-loader.js');
+var spec = require('./spec');
+
+spec.paths(lib['./fixtures/templates/child.nunj'], lib['child.nunj']);
 
 describe('compiled templates', function() {
 

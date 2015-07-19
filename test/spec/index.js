@@ -1,0 +1,1 @@
+exports.paths = require('./paths');
