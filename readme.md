@@ -107,6 +107,7 @@ A custom nunjucks.Environment is used by this loader. To configure the nunjucks 
 - Create a file that will configure the environment. This should export a function that receives the nunjucks
  environment as its first argument.
 - Add a `config` key to the nunjucks-loader query in webpack.config.js
+- Add an optional `quiet` key to the loader query in webpack.config.js to suppress precompile warnings (see below)
 
 ``` javascript
 // file: src/nunjucks.config.js
@@ -137,7 +138,7 @@ module.exports = {
                 test: /\.(nunj|nunjucks)$/,
                 loader: 'nunjucks-loader',
                 query: {
-                    'config': __dirname + '/src/nunjucks.config.js'
+                    config: __dirname + '/src/nunjucks.config.js'
                 }
             }
         ]
@@ -145,6 +146,40 @@ module.exports = {
 };
 
 ```
+
+__If using async filters or custom extensions with nunjucks__, they must be available before the template is precompiled.
+ If the nunjucks config file depends on webpack resolve (such as loaders or custom module paths), the custom
+ filters/extensions will not be available at precompile time. When/if this happens, you will receive the following
+ warning in the console:
+
+*Cannot configure nunjucks environment before precompile*
+
+When using webpack resolve with the environment config and __not__ using async filters or custom extensions, the warning
+ can be safely ignored - standard filters are still added to the environment at runtime.
+
+To remove the warning, pass the `quiet` option in the loader query. eg:
+
+```
+// file: webpack.config.js
+module.exports = {
+
+    module: {
+        loaders: [
+            {
+                test: /\.(nunj|nunjucks)$/,
+                loader: 'nunjucks-loader',
+                query: {
+                    config: __dirname + '/src/nunjucks.config.js',
+                    quiet: true // Don't show the 'Cannot configure nunjucks environment before precompile' warning
+                }
+            }
+        ]
+    }
+};
+```
+
+
+
 
 ## Path resolution
 

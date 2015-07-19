@@ -14,18 +14,36 @@ var env = new Environment([]);
 var hasRun = false;
 var pathToConfigure;
 
-module.exports = function(source) {
+module.exports = function (source) {
     this.cacheable();
 
-    if(!hasRun){
+    if (!hasRun){
         var query = this.query.replace('?', '');
-        if(query.length > 0){
+        if (query.length > 0){
             var q = JSON.parse(query);
-
             if(q.config){
                 pathToConfigure = q.config;
-                var configure = require(q.config);
-                configure(env);
+                try {
+                    var configure = require(q.config);
+                    configure(env);
+                }
+                catch (e) {
+                    if (e.code === 'MODULE_NOT_FOUND') {
+                        if (!q.quiet) {
+                            var message = 'Cannot configure nunjucks environment before precompile\n' +
+                                    '\t' + e.message + '\n' +
+                                    'Async filters and custom extensions are unsupported when the nunjucks\n' +
+                                    'environment configuration depends on webpack loaders or custom module\n' +
+                                    'resolve rules. If you are not using async filters or custom extensions\n' +
+                                    'with nunjucks, you can safely ignore this warning.'
+                                ;
+                            this.emitWarning(message);
+                        }
+                    }
+                    else {
+                        this.emitError(e.message);
+                    }
+                }
             }
         }
         hasRun = true;
@@ -45,13 +63,13 @@ module.exports = function(source) {
     }
     compiledTemplate += 'var dependencies = nunjucks.webpackDependencies || (nunjucks.webpackDependencies = {});\n';
 
-    compiledTemplate += 'var env = new nunjucks.Environment([], {autoescape: true});\n';
+    compiledTemplate += 'var env = new nunjucks.Environment([], { autoescape: true });\n';
 
-    if( pathToConfigure ){
+    if (pathToConfigure){
         compiledTemplate += 'var configure = require("' + slash(pathToConfigure) + '")(env);\n';
     }
 
-    while( match = reg.exec( nunjucksCompiledStr ) ) {
+    while (match = reg.exec(nunjucksCompiledStr)) {
         var templateRef = match[1];
 
         if (!required[templateRef]) {

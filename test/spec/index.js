@@ -16,7 +16,6 @@ module.exports = function (lib) {
 
     require('./environment')(
         lib['global-value.nunj'],
-        lib['standard-filter.nunj'],
-        lib['async-filter.nunj']
+        lib['standard-filter.nunj']
     )
 };

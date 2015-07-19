@@ -21,7 +21,8 @@ module.exports = {
     resolve: {
         root: [
             __dirname,
-            __dirname + '/fixtures/templates'
+            __dirname + '/fixtures/templates',
+            __dirname + '/fixtures/custom_modules'
         ]
     },
 
