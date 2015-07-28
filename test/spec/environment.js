@@ -1,4 +1,4 @@
-module.exports = function (globalValue, standardFilter, asyncFilter) {
+module.exports = function (globalValue, standardFilter) {
 
     describe('nunjucks environment', function () {
 
@@ -21,23 +21,6 @@ module.exports = function (globalValue, standardFilter, asyncFilter) {
                 standardFilter.render({number: 20}, function (err, result) {
                     should.not.exist(err);
                     result.should.equal('40');
-                    done();
-                });
-            });
-
-        });
-
-        describe('filters [async]', function () {
-
-            it('should add "square" async filter', function () {
-                asyncFilter.render.should.be.a.Function;
-            });
-
-            it('should render async only', function (done) {
-                should.not.exist(asyncFilter.render());
-                asyncFilter.render({ number: 2 }, function (err, result) {
-                    should.not.exist(err);
-                    result.should.be.a.Number;
                     done();
                 });
             });

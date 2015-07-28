@@ -1,3 +1,5 @@
+var foo = require('foo');
+
 module.exports = function(env) {
 
     env.addGlobal('myGlobal', 'some global value');
