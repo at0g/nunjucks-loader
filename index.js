@@ -7,10 +7,10 @@
  *
  ******************************************************************/
 
-var compiler = require('nunjucks/src/compiler');
-var Environment = require('nunjucks/src/environment').Environment;
-var slash = require('slash')
-var env = new Environment([]);
+var nunjucks = require('nunjucks');
+var slash = require('slash');
+var path = require('path');
+var env = new nunjucks.Environment([]);
 var hasRun = false;
 var pathToConfigure;
 
@@ -49,14 +49,22 @@ module.exports = function (source) {
         hasRun = true;
     }
 
-    var nunjucksCompiledStr = compiler.compile(source, env.asyncFilters, env.extensionsList);
+    var name = path.relative(this.context, this.resourcePath);
+
+    var nunjucksCompiledStr = nunjucks.precompileString(source, {
+            env: env,
+            name: name
+        });
+
+    nunjucksCompiledStr = nunjucksCompiledStr.replace(/window\.nunjucksPrecompiled/g, 'nunjucks.nunjucksPrecompiled');
+
     var reg = /env\.getTemplate\(\"(.*?)\"/g;
     var match;
     var required = {};
     var compiledTemplate = '';
 
     if (this.target === 'web') {
-        compiledTemplate += 'var nunjucks = require( "nunjucks/browser/nunjucks-slim" );\n';
+        compiledTemplate += 'var nunjucks = require("exports?nunjucks!nunjucks/browser/nunjucks-slim");\n';
     }
     else {
         compiledTemplate += 'var nunjucks = require("nunjucks");\n';
@@ -80,7 +88,8 @@ module.exports = function (source) {
     }
     compiledTemplate += '\n\n\n\n';
     compiledTemplate += 'var shim = require("' + slash(__dirname + '/runtime-shim') + '");\n';
-    compiledTemplate += 'var obj = (function () {' + nunjucksCompiledStr + '})();\n';
+    compiledTemplate += nunjucksCompiledStr + '\n';
+    compiledTemplate += 'var obj = nunjucks.nunjucksPrecompiled["' + name + '"]\n';
     compiledTemplate += 'module.exports = shim(nunjucks, env, obj, dependencies)';
 
     return compiledTemplate;
