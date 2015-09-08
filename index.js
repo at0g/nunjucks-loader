@@ -15,6 +15,11 @@ var hasRun = false;
 var pathToConfigure;
 
 module.exports = function (source) {
+
+    if (this.target !== 'web') {
+        throw new Error('[nunjucks-loader] non-web targets are not supported');
+    }
+
     this.cacheable();
 
     if (!hasRun){
@@ -63,14 +68,9 @@ module.exports = function (source) {
     var required = {};
     var compiledTemplate = '';
 
-    if (this.target === 'web') {
-        compiledTemplate += 'var nunjucks = require("exports?nunjucks!nunjucks/browser/nunjucks-slim");\n';
-    }
-    else {
-        compiledTemplate += 'var nunjucks = require("nunjucks");\n';
-    }
-    compiledTemplate += 'var dependencies = nunjucks.webpackDependencies || (nunjucks.webpackDependencies = {});\n';
 
+    compiledTemplate += 'var nunjucks = require("exports?nunjucks!nunjucks/browser/nunjucks-slim");\n';
+    compiledTemplate += 'var dependencies = nunjucks.webpackDependencies || (nunjucks.webpackDependencies = {});\n';
     compiledTemplate += 'var env = new nunjucks.Environment([], { autoescape: true });\n';
 
     if (pathToConfigure){
@@ -81,7 +81,7 @@ module.exports = function (source) {
         var templateRef = match[1];
 
         if (!required[templateRef]) {
-            // Require the dependency by name, so it get bundled by webpack
+            // Require the dependency by name, so it gets bundled by webpack
             compiledTemplate += 'dependencies["' + templateRef + '"] = require( "' + templateRef + '" );\n';
             required[templateRef] = true;
         }

@@ -14,7 +14,6 @@
 
 Install: `npm install nunjucks-loader --save`
 
-
 Add to webpack.config to process all .nunj and .nunjucks files:
 
 ``` javascript
@@ -61,42 +60,10 @@ var html = tpl.render({ message: 'Foo that!' });
 
 ### webpack.target = 'node'
 
-When targeting node instead of the browser, you'll need to add the following lines to your config.
+The 2.x versions of this loader do not support node/UMD bundles.
 
-``` javascript
-// file: webpack.config.js
-module.exports = {
-    target: 'node',
-    output: {
-        libraryTarget: 'commonjs2',
-        ...
-    },
-    ...
-}
-
-```
-
-If you intend to bundle nunjucks in the output, you will also need to add the node-loader module and exclude the
- minimatch module.
-
-``` javascript
-// file: webpack.config.js
-module.exports = {
-    module: {
-        loaders: [
-            {
-                test: /\.node$/,
-                loader: 'node'
-            },
-            {
-                test: /minimatch/,
-                loader: 'imports?require=>false'
-            }
-            ...
-        ]
-    }
-}
-```
+If you need to support node or UMD with the bundle, the 1.x version (`npm install nunjucks-loader@1.0.7`) supports these
+ targets.
 
 
 
@@ -202,10 +169,5 @@ module.exports = {
 
 ## Tests
 
-### Web
-
 `npm run test`
 Navigate to http://localhost:8080/test
-
-### Node
-`npm run test-node`
