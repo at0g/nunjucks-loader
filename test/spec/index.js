@@ -17,5 +17,9 @@ module.exports = function (lib) {
     require('./environment')(
         lib['global-value.nunj'],
         lib['standard-filter.nunj']
+    );
+
+    require('./require')(
+        lib['require.nunj']
     )
 };
