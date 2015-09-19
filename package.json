@@ -4,7 +4,7 @@
   "description": "A nunjucks loader for webpack.",
   "main": "index.js",
   "scripts": {
-    "test": "webpack-dev-server --config test/webpack.web-config.js"
+    "test": "webpack-dev-server --config test/webpack.config.js"
   },
   "repository": {
     "type": "git",
