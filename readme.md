@@ -60,14 +60,23 @@ var html = tpl.render({ message: 'Foo that!' });
 
 ### webpack.target = 'node'
 
-The 2.x versions of this loader do not support node/UMD bundles.
+*The 2.x versions of this loader do not support node/UMD bundles.()
 
 If you need to support node or UMD with the bundle, the 1.x version (`npm install nunjucks-loader@1.0.7`) supports these
  targets.
 
 
 
-### Adding custom filters and extensions
+### Filters and extensions
+
+A *require* filter is added by this package that allows you to use webpack to resolve file references.
+Eg.
+
+```
+{# use the raw-loader to replace 'readme.txt' with the contents of that file #}
+{{ 'raw!readme.txt' | require }}
+```
+
 
 A custom nunjucks.Environment is used by this loader. To configure the nunjucks environment:
 
