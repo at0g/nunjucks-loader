@@ -1,0 +1,4 @@
+{% macro include() %}
+{% include 'macro-included.nunj' %}
+{{ caller() }}
+{% endmacro %}

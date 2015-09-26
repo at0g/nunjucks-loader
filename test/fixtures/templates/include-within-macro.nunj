@@ -1,0 +1,5 @@
+{% import 'macros.nunj' as macros %}
+
+{% call macros.include() %}
+Hello
+{% endcall %}

@@ -63,34 +63,70 @@ module.exports = function (source) {
 
     nunjucksCompiledStr = nunjucksCompiledStr.replace(/window\.nunjucksPrecompiled/g, 'nunjucks.nunjucksPrecompiled');
 
-    var reg = /env\.getTemplate\(\"(.*?)\"/g;
-    var match;
-    var required = {};
+    // ==============================================================================
+    // replace 'require' filter with a webpack require expression (to resolve assets)
+    // ==============================================================================
+    var filterReg = /env\.getFilter\(\"require\"\)\.call\(context, \"(.*?)\"/g;
+    nunjucksCompiledStr = nunjucksCompiledStr.replace(filterReg, 'require("$1"');
+
+    // ================================================================
+    // Begin to write the compiled template output to return to webpack
+    // ================================================================
     var compiledTemplate = '';
-
-
     compiledTemplate += 'var nunjucks = require("exports?nunjucks!nunjucks/browser/nunjucks-slim");\n';
-    compiledTemplate += 'var dependencies = nunjucks.webpackDependencies || (nunjucks.webpackDependencies = {});\n';
-    compiledTemplate += 'var env = new nunjucks.Environment([], { autoescape: true });\n';
-
-    if (pathToConfigure){
-        compiledTemplate += 'var configure = require("' + slash(pathToConfigure) + '")(env);\n';
+    compiledTemplate += 'var env;\n';
+    compiledTemplate += 'if (!nunjucks.currentEnv){\n';
+    compiledTemplate += '\tenv = nunjucks.currentEnv = new nunjucks.Environment([], { autoescape: true });\n';
+    compiledTemplate += '} else {\n';
+    compiledTemplate += '\tenv = nunjucks.currentEnv;\n';
+    compiledTemplate += '}\n';
+    if (pathToConfigure) {
+        compiledTemplate += 'var configure = require("' + path.relative(this.context, slash(pathToConfigure)) + '")(env);\n';
     }
 
-    while (match = reg.exec(nunjucksCompiledStr)) {
-        var templateRef = match[1];
 
+
+
+    // =========================================================================
+    // Find template dependencies within nunjucks (extends, import, include etc)
+    // =========================================================================
+    //
+    // Create an object on nunjucks to hold the template dependencies so that they persist
+    // when this loader compiles multiple templates.
+    compiledTemplate += 'var dependencies = nunjucks.webpackDependencies || (nunjucks.webpackDependencies = {});\n';
+
+    var templateReg = /env\.getTemplate\(\"(.*?)\"/g;
+    var match;
+
+    // Create an object to store references to the dependencies that have been included - this ensures that a template
+    // dependency is only written once per file, even if it is used multiple times.
+    var required = {};
+
+    // Iterate over the template dependencies
+    while (match = templateReg.exec(nunjucksCompiledStr)) {
+        var templateRef = match[1];
         if (!required[templateRef]) {
             // Require the dependency by name, so it gets bundled by webpack
             compiledTemplate += 'dependencies["' + templateRef + '"] = require( "' + templateRef + '" );\n';
             required[templateRef] = true;
         }
     }
+
+
+
     compiledTemplate += '\n\n\n\n';
-    compiledTemplate += 'var shim = require("' + slash(__dirname + '/runtime-shim') + '");\n';
+
+    // Include a shim module (by reference rather than inline) that modifies the nunjucks runtime to work with the loader.
+    compiledTemplate += 'var shim = require("' + path.resolve(this.context, slash(__dirname + '/runtime-shim')) + '");\n';
+    compiledTemplate += '\n\n';
+
+    // Write the compiled template string
     compiledTemplate += nunjucksCompiledStr + '\n';
-    compiledTemplate += 'var obj = nunjucks.nunjucksPrecompiled["' + name + '"]\n';
-    compiledTemplate += 'module.exports = shim(nunjucks, env, obj, dependencies)';
+
+    compiledTemplate += '\n\n';
+
+    // export the shimmed module
+    compiledTemplate += 'module.exports = shim(nunjucks, env, nunjucks.nunjucksPrecompiled["' + name + '"] , dependencies)';
 
     return compiledTemplate;
 };

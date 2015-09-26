@@ -14,6 +14,10 @@ module.exports = {
                 query: {
                     config: __dirname + '/nunjucks.config.js'
                 }
+            },
+            {
+                test: /\.txt$/,
+                loader: 'raw'
             }
         ]
     },

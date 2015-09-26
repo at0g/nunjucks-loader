@@ -1,0 +1,1 @@
+{{ '../static/hello.txt' | require }}
