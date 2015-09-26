@@ -1,5 +1,6 @@
 var includeBasic = require('include-basic.nunj');
 var includeWithinBlock = require('include-within-block.nunj');
+var includeWithinMacro = require('include-within-macro.nunj');
 
 describe('includes', function () {
 
@@ -13,5 +14,11 @@ describe('includes', function () {
         result.should.contain('Content to include');
         result.should.contain('<div class="content">');
     });
+
+    it('should include a file within a macro', function () {
+        var result = includeWithinMacro.render();
+        result.should.contain('Included in macro');
+        result.should.include('Hello');
+    })
 
 });
