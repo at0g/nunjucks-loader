@@ -13,6 +13,7 @@ var path = require('path');
 var env = new nunjucks.Environment([]);
 var hasRun = false;
 var pathToConfigure;
+var searchPath;
 
 module.exports = function (source) {
 
@@ -50,18 +51,20 @@ module.exports = function (source) {
                     }
                 }
             }
+
+            // Specify the template search path, so we know from what directory
+            // it should be relative to.
+            searchPath = q.searchPath || this.context;
         }
         hasRun = true;
     }
 
-    var name = path.relative(this.context, this.resourcePath);
+    var name = path.relative(searchPath, this.resourcePath);
 
     var nunjucksCompiledStr = nunjucks.precompileString(source, {
             env: env,
             name: name
         });
-
-    nunjucksCompiledStr = nunjucksCompiledStr.replace(/window\.nunjucksPrecompiled/g, 'nunjucks.nunjucksPrecompiled');
 
     // ==============================================================================
     // replace 'require' filter with a webpack require expression (to resolve assets)
@@ -126,7 +129,7 @@ module.exports = function (source) {
     compiledTemplate += '\n\n';
 
     // export the shimmed module
-    compiledTemplate += 'module.exports = shim(nunjucks, env, nunjucks.nunjucksPrecompiled["' + name + '"] , dependencies)';
+    compiledTemplate += 'module.exports = shim(nunjucks, env, window.nunjucksPrecompiled["' + name + '"] , dependencies)';
 
     return compiledTemplate;
 };
