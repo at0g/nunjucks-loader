@@ -66,6 +66,8 @@ module.exports = function (source) {
             name: name
         });
 
+    nunjucksCompiledStr = nunjucksCompiledStr.replace(/window\.nunjucksPrecompiled/g, 'nunjucks.nunjucksPrecompiled');
+
     // ==============================================================================
     // replace 'require' filter with a webpack require expression (to resolve assets)
     // ==============================================================================
@@ -129,7 +131,7 @@ module.exports = function (source) {
     compiledTemplate += '\n\n';
 
     // export the shimmed module
-    compiledTemplate += 'module.exports = shim(nunjucks, env, window.nunjucksPrecompiled["' + name + '"] , dependencies)';
+    compiledTemplate += 'module.exports = shim(nunjucks, env, nunjucks.nunjucksPrecompiled["' + name + '"] , dependencies)';
 
     return compiledTemplate;
 };
