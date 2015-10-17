@@ -8,4 +8,4 @@ require('./spec/inheritance');
 require('./spec/environment');
 require('./spec/includes');
 require('./spec/require');
-
+require('./spec/nunjucks-loader');
