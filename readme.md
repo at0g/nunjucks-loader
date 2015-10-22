@@ -4,7 +4,7 @@
 - supports `extends` and `include`
 - resolves template dependencies using `require`
 - bundles the nunjucks-slim browser runtime
-- use the version of nunjucks you want to (peer dependency)
+- use the version of nunjucks you want to as a peer dependency
 
 ## Usage
 
@@ -60,7 +60,7 @@ var html = tpl.render({ message: 'Foo that!' });
 
 ### webpack.target = 'node'
 
-*The 2.x versions of this loader do not support node/UMD bundles.()
+**The 2.x versions of this loader do not support node/UMD bundles.**
 
 If you need to support node or UMD with the bundle, the 1.x version (`npm install nunjucks-loader@1.0.7`) supports these
  targets.
@@ -78,7 +78,7 @@ Eg.
 ```
 
 
-A custom nunjucks.Environment is used by this loader. To configure the nunjucks environment:
+A custom nunjucks.Environment is used by the loader, to configure the nunjucks environment:
 
 - Create a file that will configure the environment. This should export a function that receives the nunjucks
  environment as its first argument.
@@ -175,6 +175,26 @@ module.exports = {
     }
 }
 ```
+
+Alternatively, a `root` query parameter can be passed to the loader to set the root template directory.
+
+``` javascript
+// webpack.config.js
+module.exports = {
+    module: {
+        loaders: [
+            {
+                test: /\.(nunj|nunjucks)$/,
+                loader: 'nunjucks-loader',
+                query: {
+                    root: __dirname + '/path/to/templates'
+                }
+            }
+        ]
+    }
+}
+```
+
 
 ## Tests
 
