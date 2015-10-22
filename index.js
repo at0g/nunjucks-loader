@@ -13,9 +13,9 @@ var path = require('path');
 var env = new nunjucks.Environment([]);
 var hasRun = false;
 var pathToConfigure;
+var root;
 
 module.exports = function (source) {
-
     if (this.target !== 'web') {
         throw new Error('[nunjucks-loader] non-web targets are not supported');
     }
@@ -50,11 +50,17 @@ module.exports = function (source) {
                     }
                 }
             }
+
+            // Specify the template search path, so we know from what directory
+            // it should be relative to.
+            if (q.root) {
+                root = q.root;
+            }
         }
         hasRun = true;
     }
 
-    var name = path.relative(this.context, this.resourcePath);
+    var name = path.relative(root || this.options.context, this.resourcePath);
 
     var nunjucksCompiledStr = nunjucks.precompileString(source, {
             env: env,
@@ -81,7 +87,7 @@ module.exports = function (source) {
     compiledTemplate += '\tenv = nunjucks.currentEnv;\n';
     compiledTemplate += '}\n';
     if (pathToConfigure) {
-        compiledTemplate += 'var configure = require("' + path.relative(this.context, slash(pathToConfigure)) + '")(env);\n';
+        compiledTemplate += 'var configure = require("' + path.relative(this.options.context, slash(pathToConfigure)) + '")(env);\n';
     }
 
 
@@ -117,7 +123,7 @@ module.exports = function (source) {
     compiledTemplate += '\n\n\n\n';
 
     // Include a shim module (by reference rather than inline) that modifies the nunjucks runtime to work with the loader.
-    compiledTemplate += 'var shim = require("' + path.resolve(this.context, slash(__dirname + '/runtime-shim')) + '");\n';
+    compiledTemplate += 'var shim = require("' + path.resolve(this.options.context, slash(__dirname + '/runtime-shim')) + '");\n';
     compiledTemplate += '\n\n';
 
     // Write the compiled template string
