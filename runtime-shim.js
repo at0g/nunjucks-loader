@@ -2,9 +2,9 @@ module.exports = function (nunjucks, env, obj, dependencies){
 
     var oldRoot = obj.root;
 
-    obj.root = function( env, context, frame, runtime, cb ) {
+    obj.root = function( env, context, frame, runtime, ignoreMissing, cb ) {
         var oldGetTemplate = env.getTemplate;
-        env.getTemplate = function (name, ec, parentName, cb) {
+        env.getTemplate = function (name, ec, parentName, ignoreMissing, cb) {
             if( typeof ec === "function" ) {
                 cb = ec = false;
             }
@@ -30,7 +30,7 @@ module.exports = function (nunjucks, env, obj, dependencies){
             cb( null, tmpl );
         };
 
-        oldRoot(env, context, frame, runtime, function (err, res) {
+        oldRoot(env, context, frame, runtime, ignoreMissing, function (err, res) {
             env.getTemplate = oldGetTemplate;
             cb( err, res );
         });
