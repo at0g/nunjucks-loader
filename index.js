@@ -10,6 +10,7 @@
 var nunjucks = require('nunjucks');
 var slash = require('slash');
 var path = require('path');
+var loaderUtils = require('loader-utils');
 var env = new nunjucks.Environment([]);
 var hasRun = false;
 var pathToConfigure;
@@ -23,18 +24,17 @@ module.exports = function (source) {
     this.cacheable();
 
     if (!hasRun){
-        var query = this.query.replace('?', '');
-        if (query.length > 0){
-            var q = JSON.parse(query);
-            if(q.config){
-                pathToConfigure = q.config;
+        var query = loaderUtils.parseQuery(this.query);
+        if (query){
+            if(query.config){
+                pathToConfigure = query.config;
                 try {
-                    var configure = require(q.config);
+                    var configure = require(query.config);
                     configure(env);
                 }
                 catch (e) {
                     if (e.code === 'MODULE_NOT_FOUND') {
-                        if (!q.quiet) {
+                        if (!query.quiet) {
                             var message = 'Cannot configure nunjucks environment before precompile\n' +
                                     '\t' + e.message + '\n' +
                                     'Async filters and custom extensions are unsupported when the nunjucks\n' +
@@ -53,8 +53,8 @@ module.exports = function (source) {
 
             // Specify the template search path, so we know from what directory
             // it should be relative to.
-            if (q.root) {
-                root = q.root;
+            if (query.root) {
+                root = query.root;
             }
         }
         hasRun = true;
