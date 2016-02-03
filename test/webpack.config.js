@@ -12,6 +12,7 @@ module.exports = {
                 test: /\.(nunj|nunjucks)$/,
                 loader: 'index',
                 query: {
+                    jinjaCompat: true,
                     config: __dirname + '/nunjucks.config.js'
                 }
             },

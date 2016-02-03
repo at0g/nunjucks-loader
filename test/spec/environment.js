@@ -1,5 +1,6 @@
 var globalValue = require('global-value.nunj');
 var standardFilter = require('standard-filter.nunj');
+var jinjaCompat = require('jinja-compat.nunj');
 
 describe('nunjucks environment', function () {
 
@@ -22,6 +23,28 @@ describe('nunjucks environment', function () {
             standardFilter.render({number: 20}, function (err, result) {
                 should.not.exist(err);
                 result.should.equal('40');
+                done();
+            });
+        });
+
+    });
+
+    describe('jinja compat', function () {
+
+        it('should render a property value', function (done) {
+            jinjaCompat.render({myObject: {myProp: 'foo'}}).should.equal('foo');
+            jinjaCompat.render({myObject: {myProp: 'bar'}}, function (err, result) {
+                should.not.exist(err);
+                result.should.equal('bar');
+                done();
+            });
+        });
+
+        it('should render a default property value', function (done) {
+            jinjaCompat.render().should.equal('notfound');
+            jinjaCompat.render(null, function (err, result) {
+                should.not.exist(err);
+                result.should.equal('notfound');
                 done();
             });
         });
