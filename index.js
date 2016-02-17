@@ -14,6 +14,7 @@ var loaderUtils = require('loader-utils');
 var env = new nunjucks.Environment([]);
 var hasRun = false;
 var pathToConfigure;
+var jinjaCompatStr;
 var root;
 
 module.exports = function (source) {
@@ -56,6 +57,11 @@ module.exports = function (source) {
             if (query.root) {
                 root = query.root;
             }
+
+            // Enable experimental Jinja compatibility to be enabled
+            if(query.jinjaCompat){
+                jinjaCompatStr = 'nunjucks.installJinjaCompat();\n';
+            }
         }
         hasRun = true;
     }
@@ -80,6 +86,9 @@ module.exports = function (source) {
     // ================================================================
     var compiledTemplate = '';
     compiledTemplate += 'var nunjucks = require("exports?nunjucks!nunjucks/browser/nunjucks-slim");\n';
+    if (jinjaCompatStr) {
+        compiledTemplate += jinjaCompatStr + '\n';
+    }
     compiledTemplate += 'var env;\n';
     compiledTemplate += 'if (!nunjucks.currentEnv){\n';
     compiledTemplate += '\tenv = nunjucks.currentEnv = new nunjucks.Environment([], { autoescape: true });\n';

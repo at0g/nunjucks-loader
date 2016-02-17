@@ -5,6 +5,7 @@
 - resolves template dependencies using `require`
 - bundles the nunjucks-slim browser runtime
 - use the version of nunjucks you want to as a peer dependency
+- supports experimental Jinja compatibility
 
 ## Usage
 
@@ -194,6 +195,37 @@ module.exports = {
     }
 }
 ```
+
+
+## Jinja/Python compatibility
+
+If [experimental support for Jinja compatibility](https://mozilla.github.io/nunjucks/api.html#installjinjacompat)
+is desired, pass the jinjaCompat option in the loader query. eg:
+
+```
+// file: webpack.config.js
+module.exports = {
+
+    module: {
+        loaders: [
+            {
+                test: /\.(nunj|nunjucks)$/,
+                loader: 'nunjucks-loader',
+                query: {
+                    jinjaCompat: true
+                }
+            }
+        ]
+    }
+};
+```
+
+This option will not provide full Jinja/Python compatibility, but will treat `True`/`False` like `true`/`false`, and
+augment arrays and objects with Python-style methods (such as `count`, `find`, `insert`, `get`, and `update`).
+Review the [jinja-compat source](https://github.com/mozilla/nunjucks/blob/master/src/jinja-compat.js) to see
+everything it adds.
+
+
 
 
 ## Tests
