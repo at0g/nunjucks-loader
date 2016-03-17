@@ -66,7 +66,7 @@ module.exports = function (source) {
         hasRun = true;
     }
 
-    var name = path.relative(root || this.options.context, this.resourcePath);
+    var name = slash(path.relative(root || this.options.context, this.resourcePath));
 
     var nunjucksCompiledStr = nunjucks.precompileString(source, {
             env: env,
@@ -132,7 +132,7 @@ module.exports = function (source) {
     compiledTemplate += '\n\n\n\n';
 
     // Include a shim module (by reference rather than inline) that modifies the nunjucks runtime to work with the loader.
-    compiledTemplate += 'var shim = require("' + path.resolve(this.context, slash(__dirname + '/runtime-shim')) + '");\n';
+    compiledTemplate += 'var shim = require("' + slash(path.resolve(this.context, __dirname + '/runtime-shim')) + '");\n';
     compiledTemplate += '\n\n';
 
     // Write the compiled template string
