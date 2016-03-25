@@ -81,6 +81,8 @@ Eg.
 
 A custom nunjucks.Environment is used by the loader, to configure the nunjucks environment:
 
+- To pass [nunjucks.Environment options](https://mozilla.github.io/nunjucks/api.html#environment), add a `opts` key to
+ the nunjucks loader query in webpack.config.js
 - Create a file that will configure the environment. This should export a function that receives the nunjucks
  environment as its first argument.
 - Add a `config` key to the nunjucks-loader query in webpack.config.js

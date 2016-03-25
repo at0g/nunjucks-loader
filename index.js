@@ -11,7 +11,7 @@ var nunjucks = require('nunjucks');
 var slash = require('slash');
 var path = require('path');
 var loaderUtils = require('loader-utils');
-var env = new nunjucks.Environment([]);
+var env;
 var hasRun = false;
 var pathToConfigure;
 var jinjaCompatStr;
@@ -26,8 +26,12 @@ module.exports = function (source) {
 
     if (!hasRun){
         var query = loaderUtils.parseQuery(this.query);
+
         if (query){
-            if(query.config){
+
+            env = new nunjucks.Environment([], query.opts || {});
+
+            if (query.config){
                 pathToConfigure = query.config;
                 try {
                     var configure = require(query.config);
@@ -62,6 +66,9 @@ module.exports = function (source) {
             if(query.jinjaCompat){
                 jinjaCompatStr = 'nunjucks.installJinjaCompat();\n';
             }
+        }
+        else {
+            env = new nunjucks.Environment([]);
         }
         hasRun = true;
     }
