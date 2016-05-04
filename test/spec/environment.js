@@ -1,6 +1,6 @@
-var globalValue = require('global-value.nunj');
-var standardFilter = require('standard-filter.nunj');
-var jinjaCompat = require('jinja-compat.nunj');
+var globalValue = require('global-value.njk');
+var standardFilter = require('standard-filter.njk');
+var jinjaCompat = require('jinja-compat.njk');
 
 describe('nunjucks environment', function () {
 

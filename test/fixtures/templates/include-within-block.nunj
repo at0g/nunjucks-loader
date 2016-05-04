@@ -1,4 +1,0 @@
-{% extends './parent.nunj' %}
-{% block content %}
-{% include 'included.nunj' %}
-{% endblock %}

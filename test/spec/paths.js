@@ -1,5 +1,5 @@
-var tplByRelativePath = require('../fixtures/templates/child.nunj');
-var tplByResolvedPath = require('child.nunj');
+var tplByRelativePath = require('../fixtures/templates/child.njk');
+var tplByResolvedPath = require('child.njk');
 
 describe('paths', function () {
     it('should resolve paths using webpack resolve', function () {

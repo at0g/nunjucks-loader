@@ -1,8 +1,8 @@
-exports['./templates/child.nunj'] = require('./templates/child.nunj');
-exports['child.nunj'] = require('child.nunj');
-exports['include-basic.nunj'] = require('include-basic.nunj');
-exports['include-within-block.nunj'] = require('include-within-block.nunj');
-exports['global-value.nunj'] = require('global-value.nunj');
-exports['standard-filter.nunj'] = require('standard-filter.nunj');
-exports['jinja-compat.nunj'] = require('jinja-compat.nunj');
-exports['require.nunj'] = require('require.nunj');
+exports['./templates/child.njk'] = require('./templates/child.njk');
+exports['child.njk'] = require('child.njk');
+exports['include-basic.njk'] = require('include-basic.njk');
+exports['include-within-block.njk'] = require('include-within-block.njk');
+exports['global-value.njk'] = require('global-value.njk');
+exports['standard-filter.njk'] = require('standard-filter.njk');
+exports['jinja-compat.njk'] = require('jinja-compat.njk');
+exports['require.njk'] = require('require.njk');

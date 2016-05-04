@@ -15,7 +15,7 @@
 
 Install: `npm install nunjucks-loader --save`
 
-Add to webpack.config to process all .nunj and .nunjucks files:
+Add to webpack.config to process all .njk and .nunjucks files:
 
 ``` javascript
 // file: webpack.config.js
@@ -31,7 +31,7 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.(nunj|nunjucks)$/,
+                test: /\.(njk|nunjucks)$/,
                 loader: 'nunjucks-loader'
             }
         ]
@@ -44,7 +44,7 @@ Then use it in your module code without the `nunjucks!` prefix:
 
 ``` javascript
 // file: src/entry.js
-var tpl = require('./views/page.nunj');
+var tpl = require('./views/page.njk');
 var html = tpl.render({ message: 'Foo that!' });
 ```
 
@@ -54,7 +54,7 @@ If using the inline configuration (below), references inside of templates to oth
 resolve correctly - hence it's preferable to use the webpack.config method above.
 
 ``` javascript
-var tpl = require("nunjucks!./views/page.nunj");
+var tpl = require("nunjucks!./views/page.njk");
 var html = tpl.render({ message: 'Foo that!' });
 ```
 
@@ -114,7 +114,7 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.(nunj|nunjucks)$/,
+                test: /\.(njk|nunjucks)$/,
                 loader: 'nunjucks-loader',
                 query: {
                     config: __dirname + '/src/nunjucks.config.js'
@@ -145,7 +145,7 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.(nunj|nunjucks)$/,
+                test: /\.(njk|nunjucks)$/,
                 loader: 'nunjucks-loader',
                 query: {
                     config: __dirname + '/src/nunjucks.config.js',
