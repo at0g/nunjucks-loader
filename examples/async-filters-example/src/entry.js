@@ -1,6 +1,6 @@
 var $ = require('jquery');
-var formTpl = require('markdown-form.nunj');
-var resultTpl = require('markdown-result.nunj');
+var formTpl = require('markdown-form.njk');
+var resultTpl = require('markdown-result.njk');
 
 $(function(){
     $('body').html(  formTpl.render() );

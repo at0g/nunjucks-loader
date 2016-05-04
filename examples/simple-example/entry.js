@@ -1,5 +1,5 @@
 var $ = require('jquery');
-var helloTpl = require('./hello.nunj');
+var helloTpl = require('./hello.njk');
 
 $(function(){
     $('body')

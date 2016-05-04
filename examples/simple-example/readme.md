@@ -13,5 +13,5 @@ To run this example:
 ## Files of note
 
 - `webpack.config.js` registers the nunjucks loader
-- `entry.js` includes hello.nunj and renders the content in the browser
-- `hello.nunj` A simple template
+- `entry.js` includes hello.njk and renders the content in the browser
+- `hello.njk` A simple template

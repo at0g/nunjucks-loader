@@ -1,8 +1,8 @@
-{% extends 'parent.nunj' %}
+{% extends 'parent.njk' %}
 
 {% block content %}
 <div style="background-color: #ffff00; padding: 1em;">
-    <pre><code>path/to/templates/child.nunj</code></pre>
+    <pre><code>path/to/templates/child.njk</code></pre>
     <h2>Child message: {{ message | default('(none)') }}</h2>
 </div>
 {% endblock %}

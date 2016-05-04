@@ -1,6 +1,6 @@
-var includeBasic = require('include-basic.nunj');
-var includeWithinBlock = require('include-within-block.nunj');
-var includeWithinMacro = require('include-within-macro.nunj');
+var includeBasic = require('include-basic.njk');
+var includeWithinBlock = require('include-within-block.njk');
+var includeWithinMacro = require('include-within-macro.njk');
 
 describe('includes', function () {
 

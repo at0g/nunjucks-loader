@@ -1,4 +1,4 @@
-var requireTpl = require('require.nunj');
+var requireTpl = require('require.njk');
 
 describe('require filter', function () {
     it ('should include hello.txt using the module loader', function () {

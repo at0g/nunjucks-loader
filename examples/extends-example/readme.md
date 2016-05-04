@@ -13,5 +13,5 @@ To run this example:
 ## Files of note
 
 - `webpack.config.js` registers the nunjucks loader
-- `entry.js` includes child.nunj and renders the content in the browser
-- `child.nunj` A simple template that extends `parent.nunj`
+- `entry.js` includes child.njk and renders the content in the browser
+- `child.njk` A simple template that extends `parent.njk`
