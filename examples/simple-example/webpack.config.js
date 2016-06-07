@@ -10,7 +10,7 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.(nunj|nunjucks)$/,
+                test: /\.(njk|nunjucks)$/,
                 loader: 'nunjucks-loader'
             }
         ]
