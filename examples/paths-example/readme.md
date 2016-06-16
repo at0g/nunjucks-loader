@@ -1,7 +1,7 @@
 # Paths example.
 
 This example uses multiple template paths. The template paths are added to `resolve.root` in `webpack.config.js` so that
-the full path can be ommited when requiring them.
+the full path can be omitted when requiring them.
 
 To run this example:
 
