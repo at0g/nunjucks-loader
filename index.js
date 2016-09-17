@@ -92,7 +92,7 @@ module.exports = function (source) {
     // Begin to write the compiled template output to return to webpack
     // ================================================================
     var compiledTemplate = '';
-    compiledTemplate += 'var nunjucks = require("exports?nunjucks!nunjucks/browser/nunjucks-slim");\n';
+    compiledTemplate += 'var nunjucks = require("nunjucks/browser/nunjucks-slim");\n';
     if (jinjaCompatStr) {
         compiledTemplate += jinjaCompatStr + '\n';
     }

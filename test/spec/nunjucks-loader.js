@@ -1,4 +1,4 @@
-var nunjucks = require("exports?nunjucks!nunjucks/browser/nunjucks-slim");
+var nunjucks = require("nunjucks/browser/nunjucks-slim");
 
 var templateOne = require('hero/default.njk');
 var templateTwo = require('villain/default.njk');
