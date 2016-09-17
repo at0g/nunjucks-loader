@@ -1,6 +1,6 @@
 {
   "name": "nunjucks-loader",
-  "version": "2.4.2",
+  "version": "2.4.4",
   "description": "A nunjucks loader for webpack.",
   "main": "index.js",
   "scripts": {
@@ -28,15 +28,15 @@
     "slash": "~1.0.0"
   },
   "peerDependencies": {
-    "nunjucks": "^2.5.0",
-    "exports-loader": "^0.6.2"
+    "nunjucks": "^2.5.0"
   },
   "devDependencies": {
     "chai": "^2.1.2",
-    "exports-loader": "^0.6.2",
     "mocha": "^2.2.1",
     "mocha-loader": "^0.7.1",
     "nunjucks": "^2.5.0",
-    "raw-loader": "^0.5.1"
+    "raw-loader": "^0.5.1",
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.15.2"
   }
 }
