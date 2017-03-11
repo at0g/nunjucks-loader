@@ -1,6 +1,6 @@
 {
   "name": "nunjucks-loader",
-  "version": "2.4.6",
+  "version": "2.4.7",
   "description": "A nunjucks loader for webpack.",
   "main": "index.js",
   "scripts": {
@@ -17,14 +17,14 @@
     "loader",
     "template"
   ],
-  "author": "Ben Daley <ben@fanboy.io> (http://fanboy.io)",
+  "author": "Ben Daley <ben@fanboy.io>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/at0g/nunjucks-loader/issues"
   },
   "homepage": "https://github.com/at0g/nunjucks-loader",
   "dependencies": {
-    "loader-utils": "^0.2.12",
+    "loader-utils": "^1.0.0",
     "slash": "~1.0.0"
   },
   "peerDependencies": {
