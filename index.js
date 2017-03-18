@@ -25,7 +25,7 @@ module.exports = function (source) {
     this.cacheable();
 
     if (!hasRun){
-        var query = loaderUtils.getOptions(this.query);
+        var query = loaderUtils.parseQuery(this.query);
 
         if (query){
 

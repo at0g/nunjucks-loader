@@ -1,6 +1,6 @@
 {
   "name": "nunjucks-loader",
-  "version": "2.4.7",
+  "version": "2.4.8",
   "description": "A nunjucks loader for webpack.",
   "main": "index.js",
   "scripts": {
@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/at0g/nunjucks-loader",
   "dependencies": {
-    "loader-utils": "^1.0.0",
+    "loader-utils": "^0.2.12",
     "slash": "~1.0.0"
   },
   "peerDependencies": {
