@@ -30,9 +30,15 @@
   "homepage": "https://github.com/at0g/nunjucks-loader#readme",
   "dependencies": {
     "lerna": "^2.5.1",
+    "loader-utils": "^1.1.0",
+    "nunjucks": "^2.5.2",
+    "slash": "^1.0.0",
     "webpack": "^2.7.0"
   },
   "devDependencies": {
-    "rimraf": "^2.6.2"
+    "babel-cli": "^6.26.0",
+    "babel-env": "^2.4.1",
+    "rimraf": "^2.6.2",
+    "webpack-node-externals": "^1.6.0"
   }
 }

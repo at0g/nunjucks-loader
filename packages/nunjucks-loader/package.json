@@ -1,0 +1,40 @@
+{
+  "name": "nunjucks-loader",
+  "version": "3.0.0-development.0.0.1",
+  "description": "A nunjucks loader for webpack.",
+  "main": "dist/parseNunjucks.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/at0g/nunjucks-loader.git"
+  },
+  "keywords": [
+    "webpack",
+    "nunjucks",
+    "loader",
+    "template"
+  ],
+  "author": "Ben Daley <ben@fanboy.io>",
+  "license": "MIT",
+  "scripts": {
+    "build": "babel -d dist src",
+    "clean": "rimraf dist",
+    "prepare": "npm run clean && npm run build"
+  },
+  "bugs": {
+    "url": "https://github.com/at0g/nunjucks-loader/issues"
+  },
+  "homepage": "https://github.com/at0g/nunjucks-loader",
+  "peerDependencies": {
+    "nunjucks": ">= 2.5.0 <= 4.0.0",
+    "webpack": ">= 2.0.0 <= 4.0.0"
+  },
+  "dependencies": {
+    "loader-utils": "^1.1.0",
+    "slash": "^1.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-env": "^2.4.1",
+    "rimraf": "^2.6.2"
+  }
+}

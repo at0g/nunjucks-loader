@@ -1,0 +1,22 @@
+{
+  "name": "@at0g/nunjucks-loader-node-usage",
+  "version": "1.0.0",
+  "description": "A private package to test nunjucks-loader when targetting node",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "build": "webpack",
+    "clean": "rimraf dist",
+    "test": "jest"
+  },
+  "author": "Ben Daley <ben@fanboy.io>",
+  "license": "MIT",
+  "dependencies": {
+    "nunjucks": "^2.5.2"
+  },
+  "devDependencies": {
+    "nunjucks-loader": "3.0.0-development.0.0.1",
+    "webpack": "^2.7.0",
+    "webpack-node-externals": "^1.6.0"
+  }
+}
