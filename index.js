@@ -26,10 +26,10 @@ module.exports = function (source) {
 
     if (!hasRun){
         var query = loaderUtils.parseQuery(this.query);
-
+        var envOpts = query.opts || {};
         if (query){
 
-            env = new nunjucks.Environment([], query.opts || {});
+            env = new nunjucks.Environment([], envOpts);
 
             if (query.config){
                 pathToConfigure = query.config;
@@ -98,7 +98,7 @@ module.exports = function (source) {
     }
     compiledTemplate += 'var env;\n';
     compiledTemplate += 'if (!nunjucks.currentEnv){\n';
-    compiledTemplate += '\tenv = nunjucks.currentEnv = new nunjucks.Environment([], { autoescape: true });\n';
+    compiledTemplate += '\tenv = nunjucks.currentEnv = new nunjucks.Environment([], ' + JSON.stringify(envOpts) + ');\n';
     compiledTemplate += '} else {\n';
     compiledTemplate += '\tenv = nunjucks.currentEnv;\n';
     compiledTemplate += '}\n';
