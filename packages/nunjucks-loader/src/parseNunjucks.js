@@ -62,8 +62,6 @@ export default function parseNunjucks(source) {
 
 	const templateDependencies = parseDependencies(convertedCompiledStr);
 	const pathToShim = slash(path.resolve(this.context, __dirname + '/runtimeShim.js'));
-
-	// This breaks UMD unfortunately
 	const pathToRuntime = 'nunjucks/browser/nunjucks-slim.min';
     const output = `
 var nunjucks = require("${pathToRuntime}");
@@ -80,7 +78,7 @@ else {
 
 // template dependencies
 var dependencies = nunjucks.webpackDependencies || (nunjucks.webpackDependencies = {});
-${Object.keys(templateDependencies).map((templateName) => `
+${templateDependencies.map((templateName) => `
 dependencies["${templateName}"] = require("${templateName}");`)}
 
 // End template dependencies

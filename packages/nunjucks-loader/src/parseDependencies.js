@@ -14,5 +14,5 @@ export default function parseDependencies(templateStr) {
         }
     }
 
-    return dependencies;
+    return Object.keys(dependencies);
 }
