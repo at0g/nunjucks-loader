@@ -1,0 +1,8 @@
+{
+  "name": "nunjucks-loader-templates",
+  "version": "3.0.0-development.0.0.1",
+  "private": true,
+  "peerDependencies": {
+    "nunjucks": ">= 2.5.0 <= 4.0.0"
+  }
+}

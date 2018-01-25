@@ -1,0 +1,7 @@
+{% extends './parent.njk' %}
+
+{% block content %}
+<div style="background-color: #ffff00; padding: 1em;">
+    <h2>Child message: {{ message | default('(none)') }}</h2>
+</div>
+{% endblock %}
