@@ -1,13 +1,11 @@
 {
   "name": "@at0g/nunjucks-loader-node-usage",
   "version": "1.0.0",
-  "description": "A private package to test nunjucks-loader when targetting node",
-  "main": "index.js",
+  "description": "A private package to test nunjucks-loader when targeting nodejs with webpack",
   "private": true,
   "scripts": {
     "build": "webpack",
-    "clean": "rimraf dist",
-    "test": "jest"
+    "clean": "rimraf dist"
   },
   "author": "Ben Daley <ben@fanboy.io>",
   "license": "MIT",
