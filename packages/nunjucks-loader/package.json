@@ -34,7 +34,6 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-env": "^2.4.1",
     "rimraf": "^2.6.2"
   }
 }

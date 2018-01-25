@@ -6,6 +6,13 @@ import slash from 'slash';
 
 let env;
 
+const defaultEnvOptions = {
+    autoescape: true,
+    throwOnUndefined: false,
+    trimBlocks: false,
+    lstripBlocks: false,
+};
+
 // RegExp to match "require" as a nunjucks filter in the compiled template.
 const requireFilterReg = /env\.getFilter\(\"require\"\)\.call\(context, \"(.*?)\"/g;
 
@@ -15,7 +22,14 @@ export default function parseNunjucks(source) {
 		options: webpackOpts,
 		resourcePath,
 	} = this;
-	const envOpts = loaderOpts.env || {};
+
+	// Build the environment options
+	const envOpts = {
+        ...defaultEnvOptions,
+        ...(loaderOpts.env || {}),
+        web: undefined,
+        express: undefined,
+    };
 
 	this.cacheable();
 
@@ -30,6 +44,7 @@ export default function parseNunjucks(source) {
 	const nunjucksCompiledStr = nunjucks.precompileString(source, {
 		env,
 		name: key,
+        asFunction: true,
 	});
 
     const convertedCompiledStr = nunjucksCompiledStr
