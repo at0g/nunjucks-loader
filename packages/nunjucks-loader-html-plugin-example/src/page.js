@@ -1,5 +1,5 @@
-const tpl = require('nunjucks-loader-templates/page/page.njk');
+import tpl from 'nunjucks-loader-templates/page/page.njk';
 
-module.exports = () => {
+export default () => {
     return tpl.render();
 };

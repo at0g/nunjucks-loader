@@ -1,10 +1,7 @@
-// const tpl = require('./templates/page.njk');
+import template from 'nunjucks-loader-templates/inheritance/child.njk';
 
-// console.log(tpl);
-// debugger;
+console.log('run js');
 
-console.log('message from main.');
-console.log('what for it');
-setTimeout(() => {
-    console.log('that\'s all there is.');
-}, 2000);
+const el = document.createElement('div');
+el.innerHTML = template.render();
+document.body.appendChild(el);

@@ -1,4 +1,4 @@
-module.exports = function render(data, template) {
+export default function render(data, template) {
     const el = document.createElement('div');
     el.innerHTML = data.map(o => `
 <div style="outline: 10px dashed deepskyblue; padding: 1em;">

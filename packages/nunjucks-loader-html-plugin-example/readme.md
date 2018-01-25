@@ -1,6 +1,7 @@
 # Extends example.
 
-This example is a simple implementation of a child template inheriting from a parent (using a relative path). 
+This example is an example using html-webpack-plugin along with a browser
+ build.
 
 To run this example:
 

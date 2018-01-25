@@ -1,4 +1,4 @@
-const tpl = require('nunjucks-loader-templates/hello-world.njk');
-const render = require('./render');
+import tpl from 'nunjucks-loader-templates/hello-world.njk';
+import render from './render';
 
 render([{}], tpl);
