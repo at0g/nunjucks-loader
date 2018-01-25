@@ -2,7 +2,6 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    context: __dirname,
     entry: path.join(__dirname, 'src/main.js'),
     output: {
         path: path.join(__dirname, 'dist'),
@@ -10,6 +9,15 @@ module.exports = {
     },
     module: {
         rules: [
+            {
+                test: /\.js$/,
+                use: [
+                    {
+                        loader: 'babel-loader',
+                    },
+                ],
+                exclude: /node_modules/,
+            },
             {
                 test: /\.njk$/,
                 use: [
@@ -20,7 +28,8 @@ module.exports = {
             },
         ],
     },
-    plugins: [new HtmlWebpackPlugin({
-        template: '!!nunjucks-loader!src/templates/page.njk'
-    })],
+    plugins: [
+        new HtmlWebpackPlugin({ template: 'src/page.js' }),
+    ],
+
 };

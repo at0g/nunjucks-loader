@@ -21,6 +21,7 @@ export default function parseNunjucks(source) {
 	const {
 		options: webpackOpts,
 		resourcePath,
+        target,
 	} = this;
 
 	// Build the environment options
@@ -34,7 +35,13 @@ export default function parseNunjucks(source) {
 	this.cacheable();
 
 	if (!env) {
-		env = new nunjucks.Environment([], envOpts);
+	    if (target === 'node') {
+	        // perform some messy crap to use the nunjucks precompiled loader in node.
+	        const window = global.window || {};
+	        window.nunjucksPrecompiled = false;
+	        global.window = window;
+        }
+        env = new nunjucks.Environment([], envOpts);
 	}
 
     const root = loaderOpts.root || webpackOpts.context;
@@ -55,9 +62,11 @@ export default function parseNunjucks(source) {
 
 	const templateDependencies = parseDependencies(convertedCompiledStr);
 	const pathToShim = slash(path.resolve(this.context, __dirname + '/runtimeShim.js'));
-    const output = `
 
-var nunjucks = require("nunjucks/browser/nunjucks-slim.min");
+	// This breaks UMD unfortunately
+	const pathToRuntime = 'nunjucks/browser/nunjucks-slim.min';
+    const output = `
+var nunjucks = require("${pathToRuntime}");
 var env;
 if (!nunjucks.currentEnv) {
    env = nunjucks.currentEnv = new nunjucks.Environment([], ${JSON.stringify(envOpts)});

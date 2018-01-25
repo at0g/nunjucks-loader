@@ -9,6 +9,7 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
+        "babel-loader": "^7.1.2",
         "nunjucks": "^2.5.2",
         "nunjucks-loader": "3.0.0-development.0.0.1",
         "nunjucks-loader-templates": "3.0.0-development.0.0.1",
