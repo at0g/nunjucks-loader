@@ -1,6 +1,6 @@
 {
   "name": "nunjucks-loader",
-  "version": "2.4.8",
+  "version": "2.4.9",
   "description": "A nunjucks loader for webpack.",
   "main": "index.js",
   "scripts": {
