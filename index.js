@@ -73,7 +73,7 @@ module.exports = function (source) {
         hasRun = true;
     }
 
-    var name = slash(path.relative(root || this.options.context, this.resourcePath));
+    var name = slash(path.relative(root || this.rootContext || this.options.context, this.resourcePath));
 
     var nunjucksCompiledStr = nunjucks.precompileString(source, {
             env: env,
