@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/at0g/nunjucks-loader",
   "dependencies": {
-    "loader-utils": "^0.2.12",
+    "loader-utils": "^1.1.0",
     "slash": "~1.0.0"
   },
   "peerDependencies": {
