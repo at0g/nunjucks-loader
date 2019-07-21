@@ -18,39 +18,36 @@ var jinjaCompatStr;
 var root;
 
 module.exports = function (source) {
-    if (this.target !== 'web') {
+    if (this.target !== 'web' && this.target !== 'node') {
         throw new Error('[nunjucks-loader] non-web targets are not supported');
     }
 
     this.cacheable();
 
-    if (!hasRun){
+    if (!hasRun) {
         var query = loaderUtils.parseQuery(this.query);
         var envOpts = query.opts || {};
-        if (query){
+        if (query) {
 
             env = new nunjucks.Environment([], envOpts);
 
-            if (query.config){
+            if (query.config) {
                 pathToConfigure = query.config;
                 try {
                     var configure = require(query.config);
                     configure(env);
-                }
-                catch (e) {
+                } catch (e) {
                     if (e.code === 'MODULE_NOT_FOUND') {
                         if (!query.quiet) {
                             var message = 'Cannot configure nunjucks environment before precompile\n' +
-                                    '\t' + e.message + '\n' +
-                                    'Async filters and custom extensions are unsupported when the nunjucks\n' +
-                                    'environment configuration depends on webpack loaders or custom module\n' +
-                                    'resolve rules. If you are not using async filters or custom extensions\n' +
-                                    'with nunjucks, you can safely ignore this warning.'
-                                ;
+                                '\t' + e.message + '\n' +
+                                'Async filters and custom extensions are unsupported when the nunjucks\n' +
+                                'environment configuration depends on webpack loaders or custom module\n' +
+                                'resolve rules. If you are not using async filters or custom extensions\n' +
+                                'with nunjucks, you can safely ignore this warning.';
                             this.emitWarning(message);
                         }
-                    }
-                    else {
+                    } else {
                         this.emitError(e.message);
                     }
                 }
@@ -63,11 +60,10 @@ module.exports = function (source) {
             }
 
             // Enable experimental Jinja compatibility to be enabled
-            if(query.jinjaCompat){
+            if (query.jinjaCompat) {
                 jinjaCompatStr = 'nunjucks.installJinjaCompat();\n';
             }
-        }
-        else {
+        } else {
             env = new nunjucks.Environment([]);
         }
         hasRun = true;
@@ -76,11 +72,11 @@ module.exports = function (source) {
     var name = slash(path.relative(root || this.rootContext || this.options.context, this.resourcePath));
 
     var nunjucksCompiledStr = nunjucks.precompileString(source, {
-            env: env,
-            name: name
-        });
+        env: env,
+        name: name
+    });
 
-    nunjucksCompiledStr = nunjucksCompiledStr.replace(/window\.nunjucksPrecompiled/g, 'nunjucks.nunjucksPrecompiled');
+    // nunjucksCompiledStr = nunjucksCompiledStr.replace(/window\.nunjucksPrecompiled/g, 'nunjucks.nunjucksPrecompiled');
 
     // ==============================================================================
     // replace 'require' filter with a webpack require expression (to resolve assets)
@@ -91,7 +87,7 @@ module.exports = function (source) {
     // ================================================================
     // Begin to write the compiled template output to return to webpack
     // ================================================================
-    var compiledTemplate = '';
+    var compiledTemplate = 'global.window = global;';
     compiledTemplate += 'var nunjucks = require("nunjucks/browser/nunjucks-slim");\n';
     if (jinjaCompatStr) {
         compiledTemplate += jinjaCompatStr + '\n';
@@ -148,7 +144,14 @@ module.exports = function (source) {
     compiledTemplate += '\n\n';
 
     // export the shimmed module
-    compiledTemplate += 'module.exports = shim(nunjucks, env, nunjucks.nunjucksPrecompiled["' + name + '"] , dependencies)';
+    compiledTemplate += `
+        let tmpl = shim(nunjucks, env, nunjucksPrecompiled["${name}"] , dependencies);
+        let htmlPluginRender = function (templateParams) {
+            return tmpl.render(templateParams);
+        };
+        tmpl.__proto__.__proto__.__proto__ = htmlPluginRender.__proto__;
+        htmlPluginRender.__proto__ = tmpl;
+        module.exports =  htmlPluginRender;`;
 
     return compiledTemplate;
 };
