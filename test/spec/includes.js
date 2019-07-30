@@ -1,6 +1,8 @@
 var includeBasic = require('include-basic.njk');
 var includeWithinBlock = require('include-within-block.njk');
 var includeWithinMacro = require('include-within-macro.njk');
+var includeRelative1 = require('hero/include.njk');
+var includeRelative2 = require('villain/include.njk');
 
 describe('includes', function () {
 
@@ -21,4 +23,8 @@ describe('includes', function () {
         result.should.include('Hello');
     })
 
+    it('should correctly resolve relative paths', function() {
+        includeRelative1.render().trim().should.equal('I am a hero.');
+        includeRelative2.render().trim().should.equal('I am a villain.');
+    });
 });

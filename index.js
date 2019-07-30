@@ -73,7 +73,9 @@ module.exports = function (source) {
         hasRun = true;
     }
 
-    var name = slash(path.relative(root || this.rootContext || this.options.context, this.resourcePath));
+    var resourcePathRel = path.relative(root || this.rootContext || this.options.context, this.resourcePath);
+    var name = slash(resourcePathRel);
+    var resourceDirRel = path.parse(resourcePathRel).dir;
 
     var nunjucksCompiledStr = nunjucks.precompileString(source, {
             env: env,
@@ -117,22 +119,27 @@ module.exports = function (source) {
     // when this loader compiles multiple templates.
     compiledTemplate += 'var dependencies = nunjucks.webpackDependencies || (nunjucks.webpackDependencies = {});\n';
 
-    var templateReg = /env\.getTemplate\(\"(.*?)\"/g;
-    var match;
+    var templateReg = /(?<=env\.getTemplate\(")(.+?)(?=")/g;    // Node >= 8
+    var isRelativeReg = /^\.\.?\//;
 
     // Create an object to store references to the dependencies that have been included - this ensures that a template
     // dependency is only written once per file, even if it is used multiple times.
     var required = {};
 
     // Iterate over the template dependencies
-    while (match = templateReg.exec(nunjucksCompiledStr)) {
-        var templateRef = match[1];
-        if (!required[templateRef]) {
-            // Require the dependency by name, so it gets bundled by webpack
-            compiledTemplate += 'dependencies["' + templateRef + '"] = require( "' + templateRef + '" );\n';
-            required[templateRef] = true;
+    nunjucksCompiledStr = nunjucksCompiledStr.replace(templateReg, function(templateRef) {
+        var templateRefRel = templateRef;
+        if (isRelativeReg.test(templateRef)) {
+            templateRefRel = slash(path.join(resourceDirRel, templateRef));
+        };
+        if (!required[templateRefRel]) {
+            // Require the dependency by path, so it gets bundled by webpack
+            compiledTemplate += 'dependencies["' + templateRefRel + '"] = require( "' + templateRef + '" );\n';
+            required[templateRefRel] = true;
         }
-    }
+
+        return templateRefRel;
+    });
 
 
 
@@ -148,7 +155,7 @@ module.exports = function (source) {
     compiledTemplate += '\n\n';
 
     // export the shimmed module
-    compiledTemplate += 'module.exports = shim(nunjucks, env, nunjucks.nunjucksPrecompiled["' + name + '"] , dependencies)';
+    compiledTemplate += 'module.exports = shim(nunjucks, env, nunjucks.nunjucksPrecompiled["' + name + '"] , dependencies);\n';
 
     return compiledTemplate;
 };
